@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magma Trader</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.6.1/dist/web3.min.js"></script>
+</head>
+<body>
+    <div id="infoModal" class="modal">
+        <div class="modal-content">
+            <p id="modalText">You are currently connected. <br> To disconnect/change accounts, please do so using your wallet interface.</p>
+            <div class="modal-actions">
+                <button id="okBtn">OK</button>
+            </div>
+        </div>
+    </div>    
+    <div id="listNFTModal" class="modal">
+        <div class="modal-content">
+            <!-- Populate with content for listing an NFT, like forms for price, etc. -->
+            <button id="closeModal">Close</button>
+        </div>
+    </div>
+    
+    <div class="top-bar">
+        <img src="logo.png" alt="Magma Trader Logo" class="logo">
+        <div class="button-group">
+            <button id="walletConnect">CONNECT WALLET</button>
+        </div>
+    </div>
+    <div id="nftCards" class="nft-cards-container"></div>
+
+    <div class="content">
+        <h1>Magma Trader</h1>
+        <p class="tagline">Trade NFTs on Magma Testnet</p>
+        <div id="nftListingContainer"></div>
+    </div>    
+    <div class="bottom-bar">
+        <button id="listNFT">List NFT</button>
+        <button id="viewMyNFTs">My NFTs</button>
+    </div>
+
+    <div id="nftModal" class="modal">
+        <!-- Modal content for NFT actions like listing and buying will go here -->
+    </div>
+    <script type="module" src="app.js"></script>
+    <script type="module" src="nftFetch.js"></script>
+</body>
+</html>
