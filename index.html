@@ -6,6 +6,8 @@
     <title>Magma Trader</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/web3@1.6.1/dist/web3.min.js"></script>
+    <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
+
 </head>
 <body>
     <div id="infoModal" class="modal">
@@ -15,7 +17,7 @@
                 <button id="okBtn">OK</button>
             </div>
         </div>
-    </div>    
+    </div>
     <div id="listNFTModal" class="modal">
         <div class="modal-content">
             <!-- Populate with content for listing an NFT, like forms for price, etc. -->
@@ -37,14 +39,26 @@
         <div id="nftListingContainer"></div>
     </div>    
     <div class="bottom-bar">
-        <button id="listNFT">List NFT</button>
-        <button id="viewMyNFTs">My NFTs</button>
+        <button id="buyNFTButton" disabled>BUY</button>
+        <button id="listNFT" disabled>SELL</button>
+        <button id="viewMyNFTs">TRANSFER</button>
     </div>
-
+    <div id="transferModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span id="closeTransferModal" class="close">&times;</span>
+            <h2>Transfer NFT</h2>
+            <p id="transferNftDetails">Transfer <span id="nftName"></span> <img id="nftImage" src="" alt="NFT" style="width: 25px; height: 25px;"> to:</p>
+            <input type="text" id="transferAddress" placeholder="Enter Ethereum Address">
+            <div class="modal-actions">
+                <button id="cancelTransfer">Cancel</button><br>
+                <button id="confirmTransfer">Transfer</button>
+            </div>
+        </div>
+    </div>
+    
     <div id="nftModal" class="modal">
         <!-- Modal content for NFT actions like listing and buying will go here -->
     </div>
     <script type="module" src="app.js"></script>
-    <script type="module" src="nftFetch.js"></script>
 </body>
 </html>
