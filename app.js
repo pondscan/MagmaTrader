@@ -58,26 +58,37 @@ async function loadNFTListings() {
 
     for (let i = 1; i <= totalListings; i++) {
         const listing = await contract.methods.getListingDetails(i).call();
+
+        // Skip listing if it's sold or not valid
+        if (!listing.price || listing.price === '0' || !listing.tokenAddress) {
+            continue; // Skip to the next iteration if the listing is sold or invalid
+        }
+
         fetch(`https://magmascan.org/api/v2/tokens/${listing.tokenAddress}/instances/${listing.tokenId}`)
             .then(response => response.json())
             .then(data => {
+                // Skip listing if metadata fetch fails or is incomplete
+                if (!data || !data.image_url) {
+                    return; // Skip this then() callback
+                }
+
                 const listingElement = document.createElement('div');
                 listingElement.classList.add('nft-item');
                 listingElement.innerHTML = `
-    <img src="${data.image_url}" alt="${data.metadata?.name}" height="200px">
-    <h5>${data.metadata?.name || 'NFT Name'} (#${listing.tokenId})</h5>
-    <p class="address">Seller: ${listing.seller.slice(0, 6)}...${listing.seller.slice(-4)}</p>
-    <p>Price: ${web3.utils.fromWei(listing.price, 'ether')} Lava</p>
-    <p class="address">Contract: ${listing.tokenAddress.slice(0, 6)}...${listing.tokenAddress.slice(-4)}</p>
-    <p>Description: ${data.metadata?.description || 'No description'}</p>
-    <button onclick="buyNFT(${listing.listingId})">Buy</button>
-`;
-
+                    <img src="${data.image_url}" alt="${data.metadata?.name}" height="200px">
+                    <h5>${data.metadata?.name || 'NFT Name'} (#${listing.tokenId})</h5>
+                    <p class="address">Seller: ${listing.seller.slice(0, 6)}...${listing.seller.slice(-4)}</p>
+                    <p>Price: ${web3.utils.fromWei(listing.price, 'ether')} Lava</p>
+                    <p class="address">Contract: ${listing.tokenAddress.slice(0, 6)}...${listing.tokenAddress.slice(-4)}</p>
+                    <p>Description: ${data.metadata?.description || 'No description'}</p>
+                    <button onclick="buyNFT(${listing.listingId})">Buy</button>
+                `;
                 listingsContainer.appendChild(listingElement);
             })
             .catch(error => console.error('Error fetching NFT metadata:', error));
     }
 }
+
 
 
 async function buyNFT(listingId) {
