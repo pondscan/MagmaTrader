@@ -1,97 +1,66 @@
 body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #2B2B2B;
-    color: #FFFFFF;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
+    font-family: 'Arial', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
 }
 
-.top-bar, .bottom-bar {
-    background-color: #202020;
+header {
+    background-color: #222;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+#nft-listings {
     display: flex;
-    justify-content: space-between;
-    padding: 10px 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
 }
 
-.logo, .content-logo {
-    width: 45px;
-    height: 45px;
-}
-
-button {
-    background-color: #F55208;
-    border: none;
-    padding: 10px 20px;
-    color: #FFFFFF;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    text-transform: uppercase;
-    font-weight: bold;
-    border-radius: 5px; /* Slightly rounded corners for a modern look */
-}
-
-button:hover {
-    background-color: #e04c07;
-}
-
-.content {
-    flex: 1;
+.nft-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    width: 250px; /* Adjust width as needed */
+    overflow: hidden;
+    text-overflow: ellipsis;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    padding: 20px;
-    overflow-y: auto;
-    text-align: left;
-    background-image: linear-gradient(to bottom, #2B2B2B 0%, #1A1A1A 100%);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-.content h1, .content h2, .content .tagline {
-    text-align: left;
-    margin-left: 20px;
-    margin-right: 20px;
-}
-
-.content h1 {
-    font-size: 3em;
-    margin-bottom: 0.1em;
-}
-
-.content h2 {
-    font-size: 2em;
-    margin-bottom: 0.05em;
-}
-
-.content .tagline {
-    font-size: 1.5em;
-    margin-bottom: 1em;
-    color: #F55208;
-}
-
-.bottom-bar button {
-    flex: 1;
-    margin: 0 10px;
-    padding: 10px 0;
-}
-
-.button-group {
-    display: flex;
     align-items: center;
+    gap: 10px;
 }
 
-button:disabled {
-    background-color: #6d6d6d;
-    cursor: not-allowed;
-    color: #9e9e9e;
+.nft-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
 }
+
+.nft-item h5, .nft-item p {
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.8rem; /* Smaller font size for text */
+}
+
+/* Specific class for addresses to truncate them nicely */
+.address {
+    display: inline-block;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 
 .modal {
     display: none;
@@ -103,101 +72,26 @@ button:disabled {
     height: 100%;
     overflow: auto;
     background-color: rgba(0,0,0,0.4);
-    backdrop-filter: blur(8px);
 }
 
 .modal-content {
-    background-color: #FFF;
+    background-color: #fefefe;
     margin: 15% auto;
-    padding: 40px;
+    padding: 20px;
     border: 1px solid #888;
-    width: 50%; /* Adjusted width for better display */
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-    animation: animatetop 0.4s;
-    color: #000;
-    border-radius: 10px;
-    text-align: center;
+    width: 80%;
 }
 
-@keyframes animatetop {
-    from {top: -300px; opacity: 0}
-    to {top: 0; opacity: 1}
-}
-
-.modal-actions {
-    margin-top: 30px;
-}
-
-.modal-actions button {
-    background-color: #F55208;
-    color: #FFFFFF;
-    border: none;
-    padding: 10px 20px;
-    margin: 0 10px;
-    cursor: pointer;
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
     font-weight: bold;
-    border-radius: 5px;
 }
 
-.stat-chip {
-    display: inline-block;
-    padding: 10px 20px;
-    margin-top: 20px;
-    background-color: #F55208;
-    color: #FFFFFF;
-    border-radius: 25px;
-    font-size: 1em;
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
     cursor: pointer;
-    max-width: 80%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }
-
-.nft-cards-container {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr); /* Adjust based on the container's width */
-    gap: 10px;
-    padding: 10px;
-}
-
-.nft-card {
-    border: 2px solid transparent; /* Initial border, transparent */
-    border-radius: 8px;
-    overflow: hidden;
-    padding: 4px;
-}
-
-.nft-card img {
-    width: 100%;
-    height: auto;
-    display: block;
-}
-
-.nft-card.selected {
-    border-color: #F55208; /* Your primary color */
-    box-shadow: 0 0 10px #F55208; /* Glow effect */
-}
-
-@media (max-width: 600px) {
-    .nft-cards-container {
-        grid-template-columns: repeat(5, 1fr); /* Adjust for smaller screens */
-    }
-}
-
-
-.nft-card .nft-info {
-    padding: 10px;
-    text-align: center;
-    color: #FFFFFF;
-}
-
-select {
-    background-color: #202020;
-    color: #FFFFFF;
-    border: 1px solid #F55208;
-    padding: 10px;
-    border-radius: 5px;
-    margin-right: 20px; /* Aligns with your top-bar padding */
-}
-
