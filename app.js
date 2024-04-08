@@ -2,6 +2,26 @@ let contract;
 let web3;
 const contractAddress = "0x2d03544dc31f1dfaedc5082d26ee4b77b66b2458";
 let userAccount = null; // To store the connected user's account
+const ERC721ABI = [
+    // Minimal ABI to interact with ERC721's approve function
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "name": "to",
+                "type": "address"
+            },
+            {
+                "name": "tokenId",
+                "type": "uint256"
+            }
+        ],
+        "name": "approve",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    }];
 
 async function initWeb3() {
     if (window.ethereum) {
@@ -130,3 +150,5 @@ async function approveAndListNFT() {
 }
 
 document.getElementById('connectWallet').addEventListener('click', initWeb3);
+document.getElementById('listNFTButton').addEventListener('click', listNFT);
+
