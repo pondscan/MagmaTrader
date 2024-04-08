@@ -2,28 +2,6 @@ let contract;
 let web3;
 const contractAddress = "0x2d03544dc31f1dfaedc5082d26ee4b77b66b2458";
 let userAccount = null; // To store the connected user's account
-const ERC721ABI = [
-    // Minimal ABI to interact with ERC721's approve function
-    {
-        "constant": false,
-        "inputs": [
-            {
-                "name": "to",
-                "type": "address"
-            },
-            {
-                "name": "tokenId",
-                "type": "uint256"
-            }
-        ],
-        "name": "approve",
-        "outputs": [],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "function"
-    }
-];
-
 
 async function initWeb3() {
     if (window.ethereum) {
@@ -51,6 +29,16 @@ async function initWeb3() {
     }
 }
 
+async function cancelListing(listingId) {
+    try {
+        await contract.methods.cancelListing(listingId).send({ from: userAccount });
+        console.log(`Listing ID ${listingId} cancelled successfully.`);
+        loadNFTListings(); // Refresh the listings to reflect the cancellation
+    } catch (error) {
+        console.error('Error cancelling listing:', error);
+    }
+}
+
 async function loadNFTListings() {
     const totalListings = await contract.methods.getTotalListings().call();
     const listingsContainer = document.getElementById('nft-listings');
@@ -72,35 +60,28 @@ async function loadNFTListings() {
                     return; // Skip this then() callback
                 }
 
+                const isOwner = listing.seller.toLowerCase() === userAccount.toLowerCase();
                 const listingElement = document.createElement('div');
                 listingElement.classList.add('nft-item');
                 listingElement.innerHTML = `
-                    <img src="${data.image_url}" alt="${data.metadata?.name}" height="200px">
-                    <h5>${data.metadata?.name || 'NFT Name'} (#${listing.tokenId})</h5>
-                    <p class="address">Seller: ${listing.seller.slice(0, 6)}...${listing.seller.slice(-4)}</p>
-                    <p>Price: ${web3.utils.fromWei(listing.price, 'ether')} Lava</p>
-                    <p class="address">Contract: ${listing.tokenAddress.slice(0, 6)}...${listing.tokenAddress.slice(-4)}</p>
-                    <p>Description: ${data.metadata?.description || 'No description'}</p>
-                    <button onclick="buyNFT(${listing.listingId})">Buy</button>
-                `;
+    <img src="${data.image_url}" alt="${data.metadata?.name}" height="200px">
+    <h5>${data.metadata?.name || 'NFT Name'} (#${listing.tokenId})</h5>
+    <p class="address">Seller: ${listing.seller.slice(0, 6)}...${listing.seller.slice(-4)}</p>
+    <p>Price: ${web3.utils.fromWei(listing.price, 'ether')} Lava</p>
+    <p class="address">Contract: ${listing.tokenAddress.slice(0, 6)}...${listing.tokenAddress.slice(-4)}</p>
+    <p>Description: ${data.metadata?.description || 'No description'}</p>
+    ${isOwner ? `<button onclick="cancelListing(${listing.listingId})">Cancel Listing</button>` : `<button onclick="buyNFT(${listing.listingId})">Buy</button>`}
+`;
                 listingsContainer.appendChild(listingElement);
             })
             .catch(error => console.error('Error fetching NFT metadata:', error));
     }
 }
 
-
-
 async function buyNFT(listingId) {
     const listing = await contract.methods.getListingDetails(listingId).call();
     await contract.methods.buyNFT(listingId).send({ from: userAccount, value: listing.price });
     console.log(`NFT with listing ID ${listingId} bought by ${userAccount}`);
-    loadNFTListings();
-}
-
-async function cancelListing(listingId) {
-    await contract.methods.cancelListing(listingId).send({ from: userAccount });
-    console.log(`Listing ID ${listingId} cancelled by ${userAccount}`);
     loadNFTListings();
 }
 
@@ -147,6 +128,5 @@ async function approveAndListNFT() {
         console.error('Error during NFT listing process:', error);
     }
 }
-
 
 document.getElementById('connectWallet').addEventListener('click', initWeb3);
