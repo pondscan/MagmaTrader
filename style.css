@@ -28,7 +28,7 @@ header {
     border: 1px solid #ddd;
     border-radius: 5px;
     padding: 20px;
-    width: 250px; /* Adjust width as needed */
+    width: 180px; /* Adjust width as needed */
     overflow: hidden;
     text-overflow: ellipsis;
     display: flex;
@@ -38,7 +38,7 @@ header {
 }
 
 .nft-item img {
-    width: 100%;
+    width: 50%;
     height: auto;
     border-radius: 5px;
 }
@@ -49,7 +49,7 @@ header {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-size: 0.8rem; /* Smaller font size for text */
+    font-size: 0.7rem; /* Smaller font size for text */
 }
 
 /* Specific class for addresses to truncate them nicely */
